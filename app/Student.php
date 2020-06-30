@@ -25,4 +25,13 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     //
+
+    //    Many to many relation ship in pivot table with courses and students tables
+    public function courses(){
+        return $this->belongsToMany(Course::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class)->select('id', 'role_id', 'name', 'email');
+    }
 }
