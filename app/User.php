@@ -40,10 +40,30 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereTrialEndsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $last_name
+ * @property string $slug
+ * @property-read \App\Role $role
+ * @property-read \App\UserSocialAccount|null $socialAccount
+ * @property-read \App\Student|null $student
+ * @property-read \App\Teacher|null $teacher
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereSlug($value)
  */
 class User extends Authenticatable
 {
     use Notifiable;
+    // Uso de evento mientras se esta creando el usuario
+
+    protected  static function boot(){
+        parent::boot();
+        // Aqui aun no ha sido creado el usuario
+        static::creating(function(User $user){
+           if(! \App::runningInConsole()){
+               $user->slug = str_slug($user->name."".$user->last_name, "-");
+           }
+        });
+    }
+
 
     /**
      * The attributes that are mass assignable.

@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Goal whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Goal whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Course $course
  */
 class Goal extends Model
 {

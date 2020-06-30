@@ -39,6 +39,17 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Course whereTeacherId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Course whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Category $category
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Goal[] $goals
+ * @property-read int|null $goals_count
+ * @property-read \App\Level $level
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Requirement[] $requirements
+ * @property-read int|null $requirements_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Review[] $reviews
+ * @property-read int|null $reviews_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Student[] $students
+ * @property-read int|null $students_count
+ * @property-read \App\Teacher $teacher
  */
 class Course extends Model
 {

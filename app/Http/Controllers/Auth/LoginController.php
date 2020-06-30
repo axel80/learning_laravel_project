@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Student;
+use App\UserSocialAccount;
+use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Laravel\Socialite\Facades\Socialite;
+use App\User;
 
 class LoginController extends Controller
 {
@@ -38,18 +42,55 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+
+// Socialite login or create user
     public function redirectToProvider($driver){
         return Socialite::driver($driver)->redirect();
     }
 
     public function handleProviderCallback($driver){
+
         if(!request()->has('code') || request()->has('denied')){
             session()->flash('message', ['danger', __('Inicio de sesión cancelado')]);
             return redirect('login');
         }
         $socialUser = Socialite::driver($driver)->user();
-        dd($socialUser);
+        $user = null;
+        $success = true;
+        $email = $socialUser->email;
+        $check = User::whereEmail($email)->first();
+        if($check){
+            $user = $check;
+        }else{
+            \DB::beginTransaction();
+            try{
+               $user = User::create([
+                    'name' => $socialUser->name,
+                    'email' => $email
+                ]);
 
+                UserSocialAccount::create([
+                    'user_id'       => $user->id,
+                    'provider'      => $driver,
+                    'provider_uid'  => $socialUser->id
+                ]);
+
+                Student::create([
+                    "user_id" => $user->id
+                ]);
+
+            }catch(\Exception $e){
+                $success = $e->getMessage();
+                \DB::rollBack();
+            }
+        }
+        if($success === true){
+            \DB::commit();
+            auth::loginUsingId($user->id);
+            return redirect(route('home'));
+        }
+        session()->flash('message',['danger', $success]);
+        return redirect('login');
     }
 
 }

@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Level whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Level whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Course|null $course
  */
 class Level extends Model
 {

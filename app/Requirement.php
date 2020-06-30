@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Requirement whereRequirement($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Requirement whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Course $course
  */
 class Requirement extends Model
 {

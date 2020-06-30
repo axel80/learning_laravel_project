@@ -21,10 +21,16 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Student whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Student whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Course[] $courses
+ * @property-read int|null $courses_count
+ * @property-read \App\User $user
  */
 class Student extends Model
 {
-    //
+
+
+    protected  $fillable = [ 'user_id', 'title' ];
+
 
     //    Many to many relation ship in pivot table with courses and students tables
     public function courses(){
